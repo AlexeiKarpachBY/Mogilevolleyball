@@ -288,7 +288,7 @@ function showStandingsTable() {
                 </div>
                 <div class="table-legend-item">
                     <div class="table-legend-box legend-playoff"></div>
-                    <span>2-4 места - Плей-офф</span>
+                    <span>1-4 места - Плей-офф</span>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 30px; color: #aaa; font-size: 0.9em;">
