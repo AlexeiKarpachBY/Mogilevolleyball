@@ -45,6 +45,55 @@
             letter-spacing: 1px;
         }
 
+        /* Кнопки режимов просмотра */
+        .view-modes {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+        }
+
+        .view-mode-btn {
+            padding: 12px 30px;
+            border: 2px solid rgba(0,212,255,0.3);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .view-mode-btn:hover {
+            background: rgba(0,212,255,0.2);
+            border-color: rgba(0,212,255,0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,212,255,0.3);
+        }
+
+        .view-mode-btn.active {
+            background: linear-gradient(135deg, #00d4ff, #00a8cc);
+            border-color: #00e5ff;
+            color: #000;
+            font-weight: 700;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,212,255,0.5);
+        }
+
+        .view-mode-btn.active:hover {
+            background: linear-gradient(135deg, #00e5ff, #00b8dd);
+            transform: translateY(-3px);
+        }
+
         .controls {
             display: flex;
             gap: 20px;
@@ -413,6 +462,152 @@
             font-weight: 400;
         }
 
+        /* Стили для турнирной таблицы */
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .standings-table thead {
+            background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(0,212,255,0.2));
+        }
+
+        .standings-table th {
+            font-family: 'Montserrat', sans-serif;
+            padding: 15px 10px;
+            text-align: center;
+            color: #00e5ff;
+            font-weight: 700;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(0,212,255,0.5);
+            text-transform: uppercase;
+        }
+
+        .standings-table th:first-child {
+            text-align: center;
+            width: 50px;
+        }
+
+        .standings-table th:nth-child(2) {
+            text-align: left;
+            padding-left: 20px;
+            min-width: 200px;
+        }
+
+        .standings-table th:nth-child(3),
+        .standings-table th:nth-child(4),
+        .standings-table th:nth-child(5),
+        .standings-table th:nth-child(6) {
+            width: 80px;
+        }
+
+        .standings-table tbody tr {
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .standings-table tbody tr:hover {
+            background: rgba(0,212,255,0.1);
+            transform: scale(1.02);
+        }
+
+        .standings-table tbody tr:nth-child(1),
+        .standings-table tbody tr:nth-child(2),
+        .standings-table tbody tr:nth-child(3),
+        .standings-table tbody tr:nth-child(4) {
+            background: rgba(0, 212, 255, 0.15);
+            border-left: 4px solid #00e5ff;
+        }
+
+        .standings-table tbody tr:nth-child(1) {
+            background: rgba(255, 215, 0, 0.2);
+            border-left: 4px solid #ffd951;
+        }
+
+        .standings-table td {
+            font-family: 'Roboto', sans-serif;
+            padding: 15px 10px;
+            text-align: center;
+            color: #ddd;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        .standings-table td:first-child {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #00e5ff;
+        }
+
+        .standings-table td:nth-child(2) {
+            text-align: left;
+            padding-left: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.05em;
+            color: #fff;
+        }
+
+        .standings-table .points {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.2em;
+            color: #ffd951;
+        }
+
+        .table-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+
+        .table-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-legend-box {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-gold {
+            background: rgba(255, 215, 0, 0.3);
+            border: 2px solid #ffd951;
+        }
+
+        .legend-playoff {
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid #00e5ff;
+        }
+
+        .legend-silver {
+            background: rgba(192, 192, 192, 0.2);
+        }
+
+        .legend-red {
+            background: rgba(255, 82, 82, 0.2);
+        }
+
         .legend {
             display: flex;
             justify-content: center;
@@ -463,10 +658,41 @@
                 text-align: center;
             }
 
+            .view-modes {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .view-mode-btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                flex: 1 1 auto;
+                min-width: 120px;
+            }
+
             .matches-grid.team-view .match-info {
                 flex-direction: column;
                 gap: 10px;
                 font-size: 0.8em;
+            }
+
+            .standings-table {
+                font-size: 0.85em;
+            }
+
+            .standings-table th,
+            .standings-table td {
+                padding: 10px 5px;
+            }
+
+            .standings-table th:nth-child(2),
+            .standings-table td:nth-child(2) {
+                padding-left: 10px;
+            }
+
+            .table-legend {
+                font-size: 0.8em;
+                gap: 15px;
             }
 
             .controls {
@@ -548,15 +774,14 @@
     <div class="container">
         <h1>🏐 Могилевская любительская волейбольная лига</h1>
         
-        <div class="controls">
-            <div class="control-group">
-                <label>📋 Режим просмотра:</label>
-                <select id="viewMode">
-                    <option value="gameweek">По турам</option>
-                    <option value="team">По командам</option>
-                </select>
-            </div>
+        <!-- Кнопки режимов просмотра -->
+        <div class="view-modes">
+            <button class="view-mode-btn active" data-mode="gameweek">📅 Расписание</button>
+            <button class="view-mode-btn" data-mode="team">👥 По командам</button>
+            <button class="view-mode-btn" data-mode="table">🏆 Таблица</button>
+        </div>
 
+        <div class="controls">
             <div class="control-group" id="gameweekSelector">
                 <label>🗓️ Выберите тур:</label>
                 <select id="gameweekSelect">
@@ -818,23 +1043,37 @@
         }
 
         function setupEventListeners() {
-            document.getElementById('viewMode').addEventListener('change', function() {
-                const mode = this.value;
-                document.getElementById('gameweekSelector').style.display = mode === 'gameweek' ? 'block' : 'none';
-                document.getElementById('teamSelector').style.display = mode === 'team' ? 'block' : 'none';
-                document.getElementById('homeAwayFilter').style.display = mode === 'team' ? 'block' : 'none';
+            // Обработчики для кнопок режимов просмотра
+            const viewModeBtns = document.querySelectorAll('.view-mode-btn');
+            viewModeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mode = this.getAttribute('data-mode');
 
-                if (mode === 'gameweek') {
-                    showGameweek(document.getElementById('gameweekSelect').value);
-                } else {
-                    const team = document.getElementById('teamSelect').value;
-                    if (team) {
-                        showTeamSchedule(team);
+                    // Убираем active класс со всех кнопок
+                    viewModeBtns.forEach(b => b.classList.remove('active'));
+                    // Добавляем active класс к текущей кнопке
+                    this.classList.add('active');
+
+                    // Показываем/скрываем контролы
+                    document.getElementById('gameweekSelector').style.display = mode === 'gameweek' ? 'block' : 'none';
+                    document.getElementById('teamSelector').style.display = mode === 'team' ? 'block' : 'none';
+                    document.getElementById('homeAwayFilter').style.display = mode === 'team' ? 'block' : 'none';
+
+                    // Показываем соответствующий контент
+                    if (mode === 'gameweek') {
+                        showGameweek(document.getElementById('gameweekSelect').value);
+                    } else if (mode === 'table') {
+                        showStandingsTable();
                     } else {
-                        document.getElementById('scheduleContainer').innerHTML = 
-                            '<div class="no-matches">Выберите команду для просмотра расписания</div>';
+                        const team = document.getElementById('teamSelect').value;
+                        if (team) {
+                            showTeamSchedule(team);
+                        } else {
+                            document.getElementById('scheduleContainer').innerHTML =
+                                '<div class="no-matches">Выберите команду для просмотра расписания</div>';
+                        }
                     }
-                }
+                });
             });
 
             document.getElementById('gameweekSelect').addEventListener('change', function() {
@@ -973,10 +1212,109 @@
                         <span><span class="icon">📅</span> ${match.date}</span>
                         <span><span class="icon">⏰</span> ${match.time}</span>
                         <span><span class="icon">🏟️</span> ${match.hall}</span>
-                        ${match.address && match.isHome !== undefined ? `<span><span class="icon">📍</span> ${match.address}</span>` : ''}
+                        ${match.address ? `<span><span class="icon">📍</span> ${match.address}</span>` : ''}
                     </div>
                 </div>
             `;
+        }
+
+        function showStandingsTable() {
+            // Собираем статистику по командам
+            const teams = {};
+
+            // Инициализируем команды
+            scheduleData.schedule.forEach(gw => {
+                gw.matches.forEach(match => {
+                    if (!teams[match.home]) {
+                        teams[match.home] = {
+                            name: match.home,
+                            played: 0,
+                            setsWon: 0,
+                            setsLost: 0,
+                            pointsFor: 0,
+                            pointsAgainst: 0,
+                            points: 0
+                        };
+                    }
+                    if (!teams[match.away]) {
+                        teams[match.away] = {
+                            name: match.away,
+                            played: 0,
+                            setsWon: 0,
+                            setsLost: 0,
+                            pointsFor: 0,
+                            pointsAgainst: 0,
+                            points: 0
+                        };
+                    }
+                });
+            });
+
+            // Здесь можно добавить реальные результаты матчей
+            // Пока создаем примерную таблицу для демонстрации
+            // В реальности нужно хранить результаты матчей
+
+            // Сортируем команды по алфавиту для стабильного отображения
+            const sortedTeams = Object.values(teams).sort((a, b) => a.name.localeCompare(b.name));
+
+            let html = `
+                <div class="table-container">
+                    <div class="gameweek-title">
+                        🏆 Турнирная таблица
+                    </div>
+                    <table class="standings-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Команда</th>
+                                <th title="Сыгранные матчи">И</th>
+                                <th title="Разница партий">+/-</th>
+                                <th title="Набранные очки в партиях">Оч</th>
+                                <th title="Итоговые очки">О</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            sortedTeams.forEach((team, index) => {
+                const setsDiff = team.setsWon - team.setsLost;
+                const setsDiffSign = setsDiff > 0 ? '+' : '';
+
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${team.name}</td>
+                        <td>${team.played}</td>
+                        <td>${setsDiffSign}${setsDiff}</td>
+                        <td>${team.pointsFor}</td>
+                        <td class="points">${team.points}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                    <div class="table-legend">
+                        <div class="table-legend-item">
+                            <div class="table-legend-box legend-gold"></div>
+                            <span>1 место - Лидер</span>
+                        </div>
+                        <div class="table-legend-item">
+                            <div class="table-legend-box legend-playoff"></div>
+                            <span>1-4 места - Плей-офф</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 30px; color: #aaa; font-size: 0.9em;">
+                        <p><strong>И</strong> - Игры (сыгранные матчи) | <strong>+/-</strong> - Разница партий | <strong>Оч</strong> - Набранные очки в партиях | <strong>О</strong> - Итоговые очки</p>
+                        <p style="margin-top: 10px; color: #888; font-size: 0.85em;">
+                            * Таблица будет обновляться после завершения матчей
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('scheduleContainer').innerHTML = html;
         }
 
         function showStaticGameweek() {
