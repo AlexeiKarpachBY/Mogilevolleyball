@@ -387,6 +387,15 @@
                     <option value="">Загрузка...</option>
                 </select>
             </div>
+
+            <div class="control-group" id="homeAwayFilter" style="display: none;">
+                <label>🏠 Фильтр игр:</label>
+                <select id="homeAwaySelect">
+                    <option value="all">Все игры</option>
+                    <option value="home">Только дома</option>
+                    <option value="away">Только в гостях</option>
+                </select>
+            </div>
         </div>
 
         <div class="legend">
@@ -434,7 +443,7 @@
                     "matches": [
                         {"match_id": 5, "home": "Макиато", "away": "Dream team", "hall": "ФОК Орловского", "address": "ул. Орловского, 24а", "day": "Воскресенье", "time": "18:00-20:00", "date": "08.03.2026"},
                         {"match_id": 6, "home": "Серволюкс", "away": "33", "hall": "МГУ Кулешова", "address": "ул. Космонавтов, 1", "day": "Вторник", "time": "19:00-21:00", "date": "03.03.2026"},
-                        {"match_id": 7, "home": "Могилевгражданпроект", "away": "Сетка 37", "hall": "Зал МГП", "address": "ул. Буденного, 11", "day": "Пятница", "time": "18:00-20:00", "date": "06.03.2026"},
+                        {"match_id": 7, "home": "Могилевгражданпроект", "away": "Сетка 37", "hall": "Зал МГП", "address": "ул. Буденного, 11", "day": "Среда", "time": "18:00-20:00", "date": "04.03.2026"},
                         {"match_id": 8, "home": "Могилевгипрозем", "away": "Отцы и дети", "hall": "ФОК Орловского", "address": "ул. Орловского, 24", "day": "Воскресенье", "time": "17:00-18:30", "date": "08.03.2026"}
                     ]
                 },
@@ -630,7 +639,8 @@
                 const mode = this.value;
                 document.getElementById('gameweekSelector').style.display = mode === 'gameweek' ? 'block' : 'none';
                 document.getElementById('teamSelector').style.display = mode === 'team' ? 'block' : 'none';
-                
+                document.getElementById('homeAwayFilter').style.display = mode === 'team' ? 'block' : 'none';
+
                 if (mode === 'gameweek') {
                     showGameweek(document.getElementById('gameweekSelect').value);
                 } else {
@@ -650,7 +660,18 @@
 
             document.getElementById('teamSelect').addEventListener('change', function() {
                 if (this.value) {
+                    // Сбрасываем фильтр при выборе новой команды
+                    document.getElementById('homeAwaySelect').value = 'all';
                     showTeamSchedule(this.value);
+                } else {
+                    document.getElementById('homeAwayFilter').style.display = 'none';
+                }
+            });
+
+            document.getElementById('homeAwaySelect').addEventListener('change', function() {
+                const team = document.getElementById('teamSelect').value;
+                if (team) {
+                    showTeamSchedule(team);
                 }
             });
         }
@@ -686,7 +707,7 @@
                             ...match,
                             gameweek: gw.gameweek,
                             round: gw.round,
-                            date: gw.date,
+                            tourStartDate: gw.date,
                             isHome: match.home === teamName
                         });
                     }
@@ -695,24 +716,46 @@
 
             teamMatches.sort((a, b) => new Date(a.date.split('.').reverse().join('-')) - new Date(b.date.split('.').reverse().join('-')));
 
+            // Применяем фильтр дома/гости
+            const filterValue = document.getElementById('homeAwaySelect').value;
+            let filteredMatches = teamMatches;
+
+            if (filterValue === 'home') {
+                filteredMatches = teamMatches.filter(m => m.isHome);
+            } else if (filterValue === 'away') {
+                filteredMatches = teamMatches.filter(m => !m.isHome);
+            }
+
             const homeGames = teamMatches.filter(m => m.isHome).length;
             const awayGames = teamMatches.filter(m => !m.isHome).length;
 
+            // Формируем текст фильтра для заголовка
+            let filterText = '';
+            if (filterValue === 'home') {
+                filterText = ' — Домашние игры';
+            } else if (filterValue === 'away') {
+                filterText = ' — Выездные игры';
+            }
+
             let html = `
                 <div class="team-header">
-                    <div class="team-name">🏐 ${teamName}</div>
+                    <div class="team-name">🏐 ${teamName}${filterText}</div>
                     <div class="team-stats">
-                        Всего игр: ${teamMatches.length} | 
-                        <span style="color: #4ade80;">Дома: ${homeGames}</span> | 
+                        Показано: ${filteredMatches.length} из ${teamMatches.length} |
+                        <span style="color: #4ade80;">Дома: ${homeGames}</span> |
                         <span style="color: #f472b6;">В гостях: ${awayGames}</span>
                     </div>
                 </div>
                 <div class="matches-grid">
             `;
 
-            teamMatches.forEach(match => {
-                html += createMatchCard(match, teamName);
-            });
+            if (filteredMatches.length === 0) {
+                html += '<div class="no-matches">Нет матчей по выбранному фильтру</div>';
+            } else {
+                filteredMatches.forEach(match => {
+                    html += createMatchCard(match, teamName);
+                });
+            }
 
             html += '</div>';
             document.getElementById('scheduleContainer').innerHTML = html;
@@ -724,12 +767,16 @@
             
             let badges = '';
             if (match.gameweek) {
-                badges = `<span class="round-badge">Тур ${match.gameweek} (${match.date})</span>`;
+                const tourDateText = match.tourStartDate ? ` (${match.tourStartDate})` : '';
+                badges = `<span class="round-badge">Тур ${match.gameweek}${tourDateText}</span>`;
                 if (match.isHome !== undefined) {
                     badges += match.isHome ? 
                         ' <span class="home-badge">ДОМА</span>' : 
                         ' <span class="away-badge">ГОСТИ</span>';
                 }
+            } else if (match.home) {
+                // Для просмотра по турам - показываем бейдж "ДОМА"
+                badges = '<span class="home-badge">ДОМА</span>';
             }
 
             return `
