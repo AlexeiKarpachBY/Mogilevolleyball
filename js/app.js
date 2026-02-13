@@ -233,44 +233,20 @@ function createMatchCard(match, highlightTeam = null) {
 }
 
 function showStandingsTable() {
-    // Собираем статистику по командам
-    const teams = {};
+    // Получаем актуальную турнирную таблицу
+    const standings = refreshStandings();
 
-    // Инициализируем команды
-    scheduleData.schedule.forEach(gw => {
-        gw.matches.forEach(match => {
-            if (!teams[match.home]) {
-                teams[match.home] = {
-                    name: match.home,
-                    played: 0,
-                    setsWon: 0,
-                    setsLost: 0,
-                    pointsFor: 0,
-                    pointsAgainst: 0,
-                    points: 0
-                };
-            }
-            if (!teams[match.away]) {
-                teams[match.away] = {
-                    name: match.away,
-                    played: 0,
-                    setsWon: 0,
-                    setsLost: 0,
-                    pointsFor: 0,
-                    pointsAgainst: 0,
-                    points: 0
-                };
-            }
-        });
-    });
-
-    // Сортируем команды по алфавиту для стабильного отображения
-    const sortedTeams = Object.values(teams).sort((a, b) => a.name.localeCompare(b.name));
+    // Подсчет сыгранных матчей
+    const totalPlayedMatches = MATCH_RESULTS.results.filter(m => m.played).length;
+    const totalMatches = MATCH_RESULTS.results.length;
 
     let html = `
         <div class="table-container">
             <div class="gameweek-title">
                 🏆 Турнирная таблица
+            </div>
+            <div style="text-align: center; margin-bottom: 20px; color: #ccc; font-size: 0.95em;">
+                Сыграно матчей: ${totalPlayedMatches} из ${totalMatches}
             </div>
             <table class="standings-table">
                 <thead>
@@ -278,26 +254,26 @@ function showStandingsTable() {
                         <th>#</th>
                         <th>Команда</th>
                         <th title="Сыгранные матчи">И</th>
+                        <th title="Партии (выиграно-проиграно)">Партии</th>
                         <th title="Разница партий">+/-</th>
-                        <th title="Набранные очки в партиях">Оч</th>
-                        <th title="Итоговые очки">О</th>
+                        <th title="Турнирные очки">Очки</th>
                     </tr>
                 </thead>
                 <tbody>
     `;
 
-    sortedTeams.forEach((team, index) => {
-        const setsDiff = team.setsWon - team.setsLost;
-        const setsDiffSign = setsDiff > 0 ? '+' : '';
+    standings.forEach((team, index) => {
+        const setsDiffSign = team.sets_diff > 0 ? '+' : '';
+        const position = index + 1;
 
         html += `
             <tr>
-                <td>${index + 1}</td>
-                <td>${team.name}</td>
+                <td>${position}</td>
+                <td>${team.team}</td>
                 <td>${team.played}</td>
-                <td>${setsDiffSign}${setsDiff}</td>
-                <td>${team.pointsFor}</td>
-                <td class="points">${team.points}</td>
+                <td>${team.sets_won}-${team.sets_lost}</td>
+                <td>${setsDiffSign}${team.sets_diff}</td>
+                <td class="points">${team.tournament_points}</td>
             </tr>
         `;
     });
@@ -312,14 +288,21 @@ function showStandingsTable() {
                 </div>
                 <div class="table-legend-item">
                     <div class="table-legend-box legend-playoff"></div>
-                    <span>1-4 места - Плей-офф</span>
+                    <span>2-4 места - Плей-офф</span>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 30px; color: #aaa; font-size: 0.9em;">
-                <p><strong>И</strong> - Игры (сыгранные матчи) | <strong>+/-</strong> - Разница партий | <strong>Оч</strong> - Набранные очки в партиях | <strong>О</strong> - Итоговые очки</p>
-                <p style="margin-top: 10px; color: #888; font-size: 0.85em;">
-                    * Таблица будет обновляться после завершения матчей
+                <p><strong>И</strong> - Игры | <strong>Партии</strong> - Выиграно-Проиграно | <strong>+/-</strong> - Разница партий | <strong>Очки</strong> - Турнирные очки</p>
+                <p style="margin-top: 10px; color: #00d4ff; font-size: 0.95em; font-weight: 600;">
+                    📊 Система начисления очков (всегда 3 партии в матче):
                 </p>
+                <p style="margin-top: 5px; color: #ccc; font-size: 0.85em;">
+                    Победа 3-0 → <strong style="color: #5eff99;">3 очка</strong> |
+                    Победа 2-1 → <strong style="color: #4ade80;">2 очка</strong> |
+                    Поражение 1-2 → <strong style="color: #fbbf24;">1 очко</strong> |
+                    Поражение 0-3 → <strong style="color: #ef4444;">0 очков</strong>
+                </p>
+                ${totalPlayedMatches === 0 ? '<p style="margin-top: 15px; color: #888; font-size: 0.85em;">* Таблица обновится после проведения первых матчей</p>' : ''}
             </div>
         </div>
     `;
