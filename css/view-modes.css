@@ -62,6 +62,19 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,212,255,0.5), 0 0 30px rgba(0,212,255,0.3);
     animation: pulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: visible;
+}
+
+/* Летающие волейбольные мячи вокруг активной кнопки */
+.view-mode-btn.active::after {
+    content: '🏐';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 1.2em;
+    animation: floatBall 2s ease-in-out infinite;
+    opacity: 0.7;
 }
 
 @keyframes pulse {
@@ -70,6 +83,15 @@
     }
     50% {
         box-shadow: 0 6px 25px rgba(0,212,255,0.7), 0 0 40px rgba(0,212,255,0.5);
+    }
+}
+
+@keyframes floatBall {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(180deg);
     }
 }
 

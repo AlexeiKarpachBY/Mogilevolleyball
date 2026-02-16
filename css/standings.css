@@ -13,10 +13,42 @@
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+/* Волейбольный декор в углах таблицы */
+.standings-table::before {
+    content: '🏐';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2em;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.standings-table::after {
+    content: '🏐';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 2em;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+    transform: rotate(45deg);
 }
 
 .standings-table thead {
     background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(0,212,255,0.2));
+    position: relative;
+    z-index: 1;
+}
+
+.standings-table tbody {
+    position: relative;
+    z-index: 1;
 }
 
 .standings-table th {

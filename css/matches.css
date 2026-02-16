@@ -45,15 +45,28 @@
 }
 
 .gameweek-title::before {
-    content: '';
+    content: '🏐';
     position: absolute;
-    left: 50%;
-    bottom: -2px;
-    transform: translateX(-50%);
-    width: 50%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
-    box-shadow: 0 0 10px #00d4ff;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    animation: ballSpin 3s linear infinite;
+}
+
+.gameweek-title::after {
+    content: '🏐';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    animation: ballSpin 3s linear infinite reverse;
+}
+
+@keyframes ballSpin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
 }
 
 .matches-grid {
@@ -100,8 +113,28 @@
     z-index: -1;
 }
 
+/* Волейбольный мяч в углу */
+.match-card::after {
+    content: '🏐';
+    position: absolute;
+    bottom: -15px;
+    right: -15px;
+    font-size: 3em;
+    opacity: 0.05;
+    transform: rotate(-15deg);
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
 .match-card:hover::before {
     opacity: 1;
+}
+
+.match-card:hover::after {
+    opacity: 0.15;
+    transform: rotate(15deg) scale(1.2);
+    bottom: -10px;
+    right: -10px;
 }
 
 .matches-grid.gameweek-view .match-card {
