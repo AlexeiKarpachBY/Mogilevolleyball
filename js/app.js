@@ -51,6 +51,17 @@ function populateTeamSelect() {
         option.textContent = team;
         select.appendChild(option);
     });
+
+    // Также заполняем селектор для карточки команды
+    const cardSelect = document.getElementById('teamCardSelect');
+    cardSelect.innerHTML = '<option value="">Выберите команду...</option>';
+
+    Array.from(teams).sort().forEach(team => {
+        const option = document.createElement('option');
+        option.value = team;
+        option.textContent = team;
+        cardSelect.appendChild(option);
+    });
 }
 
 function setupEventListeners() {
@@ -69,6 +80,7 @@ function setupEventListeners() {
             document.getElementById('gameweekSelector').style.display = mode === 'gameweek' ? 'block' : 'none';
             document.getElementById('teamSelector').style.display = mode === 'team' ? 'block' : 'none';
             document.getElementById('homeAwayFilter').style.display = mode === 'team' ? 'block' : 'none';
+            document.getElementById('teamCardSelector').style.display = mode === 'table' ? 'block' : 'none';
 
             // Скрываем легенду в режиме таблицы
             document.getElementById('legend').style.display = mode === 'table' ? 'none' : 'flex';
@@ -215,12 +227,12 @@ function createMatchCard(match, highlightTeam = null) {
     const badgesHtml = badges ? `<div style="display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-bottom: 5px;">${badges}</div>` : '';
 
     return `
-        <div class="match-card">
+        <div class="match-card" onclick="event.stopPropagation()">
             ${badgesHtml}
             <div class="match-teams">
-                <div class="${homeClass}">${match.home}</div>
+                <div class="${homeClass}" onclick="showTeamCard('${match.home}')" style="cursor: pointer;">${match.home}</div>
                 <div class="vs">VS</div>
-                <div class="${awayClass}">${match.away}</div>
+                <div class="${awayClass}" onclick="showTeamCard('${match.away}')" style="cursor: pointer;">${match.away}</div>
             </div>
             <div class="match-info">
                 <span><span class="icon">📅</span> ${match.day}, ${match.date}</span>
@@ -267,9 +279,9 @@ function showStandingsTable() {
         const position = index + 1;
 
         html += `
-            <tr>
+            <tr onclick="showTeamCard('${team.team}')">
                 <td>${position}</td>
-                <td>${team.team}</td>
+                <td style="cursor: pointer; transition: all 0.3s;" onmouseover="this.style.color='#00d4ff'" onmouseout="this.style.color='#fff'">${team.team}</td>
                 <td>${team.played}</td>
                 <td>${team.sets_won}-${team.sets_lost}</td>
                 <td>${setsDiffSign}${team.sets_diff}</td>

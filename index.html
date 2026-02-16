@@ -47,6 +47,13 @@
                     <option value="away">Только в гостях</option>
                 </select>
             </div>
+
+            <div class="control-group" id="teamCardSelector" style="display: none;">
+                <label>🏐 Карточка команды:</label>
+                <select id="teamCardSelect" onchange="if(this.value) showTeamCard(this.value); this.value='';">
+                    <option value="">Выберите команду...</option>
+                </select>
+            </div>
         </div>
 
         <div class="legend" id="legend">
@@ -69,8 +76,8 @@
     <script src="js/scheduleData.js"></script>
     <script src="js/matchResults.js"></script>
     <script src="js/standings.js"></script>
+    <script src="js/teamCard.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/demoResults.js"></script>
 </body>
 </html>
 
