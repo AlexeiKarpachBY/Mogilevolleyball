@@ -1,0 +1,363 @@
+/* ============= АНИМАЦИИ ПЕРЕХОДОВ МЕЖДУ РЕЖИМАМИ ============= */
+
+/* ====== Базовые настройки переходов ====== */
+:root {
+    --transition-duration: 0.4s;
+    --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+    --stagger-delay: 0.05s;
+}
+
+/* ====== Анимация контейнера расписания ====== */
+.schedule-container {
+    transition: opacity var(--transition-duration) var(--transition-timing),
+                transform var(--transition-duration) var(--transition-timing);
+}
+
+/* Состояние при выходе контента */
+.schedule-container.fade-out {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+    pointer-events: none;
+}
+
+/* Состояние при входе контента */
+.schedule-container.fade-in {
+    animation: fadeInContent var(--transition-duration) var(--transition-timing) forwards;
+}
+
+@keyframes fadeInContent {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ====== Анимации карточек матчей ====== */
+.match-card {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    animation: cardAppear 0.5s var(--transition-timing) forwards;
+}
+
+/* Stagger эффект для карточек */
+.match-card:nth-child(1) { animation-delay: calc(var(--stagger-delay) * 1); }
+.match-card:nth-child(2) { animation-delay: calc(var(--stagger-delay) * 2); }
+.match-card:nth-child(3) { animation-delay: calc(var(--stagger-delay) * 3); }
+.match-card:nth-child(4) { animation-delay: calc(var(--stagger-delay) * 4); }
+.match-card:nth-child(5) { animation-delay: calc(var(--stagger-delay) * 5); }
+.match-card:nth-child(6) { animation-delay: calc(var(--stagger-delay) * 6); }
+.match-card:nth-child(7) { animation-delay: calc(var(--stagger-delay) * 7); }
+.match-card:nth-child(8) { animation-delay: calc(var(--stagger-delay) * 8); }
+.match-card:nth-child(9) { animation-delay: calc(var(--stagger-delay) * 9); }
+.match-card:nth-child(10) { animation-delay: calc(var(--stagger-delay) * 10); }
+.match-card:nth-child(11) { animation-delay: calc(var(--stagger-delay) * 11); }
+.match-card:nth-child(12) { animation-delay: calc(var(--stagger-delay) * 12); }
+
+@keyframes cardAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    60% {
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ====== Анимация заголовка тура ====== */
+.gameweek-title {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: titleSlideIn 0.5s var(--transition-timing) forwards;
+}
+
+@keyframes titleSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ====== Анимация заголовка команды ====== */
+.team-header {
+    opacity: 0;
+    transform: scale(0.95);
+    animation: teamHeaderAppear 0.5s var(--transition-timing) forwards;
+}
+
+@keyframes teamHeaderAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ====== Анимации для турнирной таблицы ====== */
+.table-container {
+    opacity: 0;
+    animation: tableAppear 0.5s var(--transition-timing) forwards;
+}
+
+@keyframes tableAppear {
+    0% {
+        opacity: 0;
+        transform: perspective(1000px) rotateX(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(0deg);
+    }
+}
+
+/* Анимация строк таблицы */
+.standings-table tbody tr {
+    opacity: 1; /* Базово видимый, чтобы избежать проблем */
+    transform: translateX(0);
+    animation: tableRowSlide 0.4s var(--transition-timing) both;
+}
+
+/* Stagger для строк таблицы */
+.standings-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.standings-table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.standings-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.standings-table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.standings-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.standings-table tbody tr:nth-child(6) { animation-delay: 0.3s; }
+.standings-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
+.standings-table tbody tr:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes tableRowSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ====== Анимации для карточки команды ====== */
+.team-card-container {
+    opacity: 0;
+    animation: teamCardAppear 0.6s var(--transition-timing) forwards;
+}
+
+@keyframes teamCardAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    50% {
+        transform: scale(1.01) translateY(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Анимация секций карточки команды */
+.team-card-section {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: sectionAppear 0.5s var(--transition-timing) forwards;
+}
+
+.team-card-section:nth-child(1) { animation-delay: 0.1s; }
+.team-card-section:nth-child(2) { animation-delay: 0.2s; }
+.team-card-section:nth-child(3) { animation-delay: 0.3s; }
+.team-card-section:nth-child(4) { animation-delay: 0.4s; }
+.team-card-section:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes sectionAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация stat-box */
+.stat-box {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: statBoxPop 0.4s var(--transition-timing) forwards;
+}
+
+.team-stats-main .stat-box:nth-child(1) { animation-delay: 0.15s; }
+.team-stats-main .stat-box:nth-child(2) { animation-delay: 0.2s; }
+.team-stats-main .stat-box:nth-child(3) { animation-delay: 0.25s; }
+.team-stats-main .stat-box:nth-child(4) { animation-delay: 0.3s; }
+.team-stats-main .stat-box:nth-child(5) { animation-delay: 0.35s; }
+
+@keyframes statBoxPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    60% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ====== Анимация контролов ====== */
+.control-group {
+    transition: opacity 0.3s var(--transition-timing),
+                transform 0.3s var(--transition-timing),
+                max-height 0.3s var(--transition-timing);
+}
+
+.control-group.hiding {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    pointer-events: none;
+}
+
+.control-group.showing {
+    animation: controlShow 0.3s var(--transition-timing) forwards;
+}
+
+@keyframes controlShow {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ====== Анимация легенды ====== */
+.legend {
+    transition: opacity 0.3s var(--transition-timing),
+                transform 0.3s var(--transition-timing);
+}
+
+.legend.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+/* ====== Анимации элементов истории матчей ====== */
+.match-history-item,
+.upcoming-match-item {
+    opacity: 0;
+    transform: translateX(-15px);
+    animation: historyItemSlide 0.3s var(--transition-timing) forwards;
+}
+
+.match-history-item:nth-child(1),
+.upcoming-match-item:nth-child(1) { animation-delay: 0.1s; }
+.match-history-item:nth-child(2),
+.upcoming-match-item:nth-child(2) { animation-delay: 0.15s; }
+.match-history-item:nth-child(3),
+.upcoming-match-item:nth-child(3) { animation-delay: 0.2s; }
+.match-history-item:nth-child(4),
+.upcoming-match-item:nth-child(4) { animation-delay: 0.25s; }
+.match-history-item:nth-child(5),
+.upcoming-match-item:nth-child(5) { animation-delay: 0.3s; }
+
+@keyframes historyItemSlide {
+    0% {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ====== Compare boxes анимация ====== */
+.compare-box {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: compareBoxAppear 0.5s var(--transition-timing) forwards;
+}
+
+.compare-box.home { animation-delay: 0.2s; }
+.compare-box.away { animation-delay: 0.35s; }
+
+@keyframes compareBoxAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ====== Специальные эффекты переходов ====== */
+
+/* Морфинг эффект для режимов */
+.view-mode-btn {
+    transition: all 0.3s var(--transition-timing),
+                transform 0.2s var(--transition-timing);
+}
+
+.view-mode-btn:not(.active):hover {
+    transform: translateY(-3px) scale(1.02);
+}
+
+.view-mode-btn.active {
+    transition: all 0.4s var(--transition-timing);
+}
+
+/* Shimmer эффект при загрузке */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.loading-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0.05) 25%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+/* ====== Reduced motion support ====== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

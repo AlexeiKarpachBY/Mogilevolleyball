@@ -298,14 +298,42 @@ function createTeamCardHTML(teamName) {
 }
 
 /**
- * Показать карточку команды
+ * Показать карточку команды с анимацией
  */
 function showTeamCard(teamName) {
-    document.getElementById('scheduleContainer').innerHTML = createTeamCardHTML(teamName);
+    const container = document.getElementById('scheduleContainer');
 
-    // Прокручиваем к карточке
-    setTimeout(() => {
-        document.querySelector('.team-card-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    // Анимированный переход
+    if (typeof TRANSITION_CONFIG !== 'undefined' && TRANSITION_CONFIG.enabled) {
+        container.classList.add('fade-out');
+
+        setTimeout(() => {
+            container.innerHTML = createTeamCardHTML(teamName);
+            container.classList.remove('fade-out');
+            container.classList.add('fade-in');
+
+            setTimeout(() => {
+                container.classList.remove('fade-in');
+            }, 300);
+
+            // Прокручиваем к карточке
+            setTimeout(() => {
+                const card = document.querySelector('.team-card-container');
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }, 300);
+    } else {
+        container.innerHTML = createTeamCardHTML(teamName);
+
+        // Прокручиваем к карточке
+        setTimeout(() => {
+            const card = document.querySelector('.team-card-container');
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    }
 }
 

@@ -1,6 +1,12 @@
 // Глобальная переменная для хранения данных расписания
 let scheduleData = null;
 
+// Настройки анимаций переходов
+const TRANSITION_CONFIG = {
+    duration: 300, // мс
+    enabled: true
+};
+
 // Инициализация приложения при загрузке страницы
 window.addEventListener('load', function() {
     // Используем данные из scheduleData.js
@@ -70,56 +76,63 @@ function setupEventListeners() {
     viewModeBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const mode = this.getAttribute('data-mode');
+            const currentActiveBtn = document.querySelector('.view-mode-btn.active');
+            const currentMode = currentActiveBtn ? currentActiveBtn.getAttribute('data-mode') : null;
+
+            // Не делаем ничего, если режим тот же
+            if (mode === currentMode) return;
 
             // Убираем active класс со всех кнопок
             viewModeBtns.forEach(b => b.classList.remove('active'));
             // Добавляем active класс к текущей кнопке
             this.classList.add('active');
 
-            // Показываем/скрываем контролы
-            document.getElementById('gameweekSelector').style.display = mode === 'gameweek' ? 'block' : 'none';
-            document.getElementById('teamSelector').style.display = mode === 'team' ? 'block' : 'none';
-            document.getElementById('homeAwayFilter').style.display = mode === 'team' ? 'block' : 'none';
-            document.getElementById('teamCardSelector').style.display = mode === 'table' ? 'block' : 'none';
+            // Анимированное переключение контролов
+            animateControlsTransition(mode);
 
-            // Скрываем легенду в режиме таблицы
-            document.getElementById('legend').style.display = mode === 'table' ? 'none' : 'flex';
-
-            // Показываем соответствующий контент
-            if (mode === 'gameweek') {
-                showGameweek(document.getElementById('gameweekSelect').value);
-            } else if (mode === 'table') {
-                showStandingsTable();
-            } else {
-                const team = document.getElementById('teamSelect').value;
-                if (team) {
-                    showTeamSchedule(team);
+            // Анимированное переключение контента
+            animateContentTransition(() => {
+                if (mode === 'gameweek') {
+                    showGameweek(document.getElementById('gameweekSelect').value);
+                } else if (mode === 'table') {
+                    showStandingsTable();
                 } else {
-                    document.getElementById('scheduleContainer').innerHTML =
-                        '<div class="no-matches">Выберите команду для просмотра расписания</div>';
+                    const team = document.getElementById('teamSelect').value;
+                    if (team) {
+                        showTeamSchedule(team);
+                    } else {
+                        document.getElementById('scheduleContainer').innerHTML =
+                            '<div class="no-matches">Выберите команду для просмотра расписания</div>';
+                    }
                 }
-            }
+            });
         });
     });
 
     document.getElementById('gameweekSelect').addEventListener('change', function() {
-        showGameweek(this.value);
+        animateQuickTransition(() => {
+            showGameweek(this.value);
+        });
     });
-
+    
     document.getElementById('teamSelect').addEventListener('change', function() {
         if (this.value) {
             // Сбрасываем фильтр при выборе новой команды
             document.getElementById('homeAwaySelect').value = 'all';
-            showTeamSchedule(this.value);
+            animateQuickTransition(() => {
+                showTeamSchedule(this.value);
+            });
         } else {
             document.getElementById('homeAwayFilter').style.display = 'none';
         }
     });
-
+    
     document.getElementById('homeAwaySelect').addEventListener('change', function() {
         const team = document.getElementById('teamSelect').value;
         if (team) {
-            showTeamSchedule(team);
+            animateQuickTransition(() => {
+                showTeamSchedule(team);
+            });
         }
     });
 }
@@ -396,4 +409,146 @@ window.addEventListener('scroll', () => {
     const opacity = Math.max(0.3, 1 - scrolled / 500);
     h1.style.opacity = opacity;
 });
+
+// ============= ФУНКЦИИ АНИМАЦИЙ ПЕРЕХОДОВ =============
+
+/**
+ * Анимированное переключение контента
+ * @param {Function} updateCallback - Функция обновления контента
+ */
+function animateContentTransition(updateCallback) {
+    const container = document.getElementById('scheduleContainer');
+
+    if (!TRANSITION_CONFIG.enabled) {
+        updateCallback();
+        return;
+    }
+
+    // Фаза 1: Fade out
+    container.classList.add('fade-out');
+
+    // Фаза 2: Обновление и Fade in
+    setTimeout(() => {
+        updateCallback();
+        container.classList.remove('fade-out');
+        container.classList.add('fade-in');
+
+        // Убираем класс после завершения анимации
+        setTimeout(() => {
+            container.classList.remove('fade-in');
+        }, TRANSITION_CONFIG.duration);
+    }, TRANSITION_CONFIG.duration);
+}
+
+/**
+ * Анимированное переключение контролов
+ * @param {string} mode - Режим просмотра ('gameweek', 'team', 'table')
+ */
+function animateControlsTransition(mode) {
+    const gameweekSelector = document.getElementById('gameweekSelector');
+    const teamSelector = document.getElementById('teamSelector');
+    const homeAwayFilter = document.getElementById('homeAwayFilter');
+    const teamCardSelector = document.getElementById('teamCardSelector');
+    const legend = document.getElementById('legend');
+
+    // Конфигурация видимости для каждого режима
+    const visibility = {
+        gameweek: {
+            gameweekSelector: true,
+            teamSelector: false,
+            homeAwayFilter: false,
+            teamCardSelector: false,
+            legend: true
+        },
+        team: {
+            gameweekSelector: false,
+            teamSelector: true,
+            homeAwayFilter: true,
+            teamCardSelector: false,
+            legend: true
+        },
+        table: {
+            gameweekSelector: false,
+            teamSelector: false,
+            homeAwayFilter: false,
+            teamCardSelector: true,
+            legend: false
+        }
+    };
+
+    const config = visibility[mode];
+
+    // Анимируем каждый контрол
+    animateControl(gameweekSelector, config.gameweekSelector);
+    animateControl(teamSelector, config.teamSelector);
+    animateControl(homeAwayFilter, config.homeAwayFilter);
+    animateControl(teamCardSelector, config.teamCardSelector);
+
+    // Анимируем легенду
+    if (config.legend) {
+        legend.classList.remove('hidden');
+        legend.style.display = 'flex';
+    } else {
+        legend.classList.add('hidden');
+        setTimeout(() => {
+            if (legend.classList.contains('hidden')) {
+                legend.style.display = 'none';
+            }
+        }, TRANSITION_CONFIG.duration);
+    }
+}
+
+/**
+ * Анимирует появление/скрытие контрола
+ * @param {HTMLElement} element - Элемент контрола
+ * @param {boolean} show - Показать/скрыть
+ */
+function animateControl(element, show) {
+    if (!element) return;
+
+    if (show) {
+        // Показываем элемент
+        element.style.display = 'block';
+        element.classList.remove('hiding');
+        element.classList.add('showing');
+
+        setTimeout(() => {
+            element.classList.remove('showing');
+        }, TRANSITION_CONFIG.duration);
+    } else {
+        // Скрываем элемент
+        element.classList.add('hiding');
+        element.classList.remove('showing');
+
+        setTimeout(() => {
+            if (element.classList.contains('hiding')) {
+                element.style.display = 'none';
+                element.classList.remove('hiding');
+            }
+        }, TRANSITION_CONFIG.duration);
+    }
+}
+
+/**
+ * Анимированная смена тура или команды (без смены режима)
+ * @param {Function} updateCallback - Функция обновления
+ */
+function animateQuickTransition(updateCallback) {
+    const container = document.getElementById('scheduleContainer');
+
+    if (!TRANSITION_CONFIG.enabled) {
+        updateCallback();
+        return;
+    }
+
+    // Быстрый fade
+    container.style.opacity = '0';
+    container.style.transform = 'translateY(10px)';
+
+    setTimeout(() => {
+        updateCallback();
+        container.style.opacity = '1';
+        container.style.transform = 'translateY(0)';
+    }, 150);
+}
 
