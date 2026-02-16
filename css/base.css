@@ -1,0 +1,81 @@
+/* ============= БАЗОВЫЕ СТИЛИ ============= */
+/* Reset, body, container */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f0f23, #1a1a2e);
+    background-size: 400% 400%;
+    animation: gradientShift 8s linear infinite;
+    min-height: 100vh;
+    color: #fff;
+    padding: 20px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Декоративная сетка на фоне */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Базовая анимация фона */
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+}
+
+/* Легенда (используется в разных режимах) */
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+@media (max-width: 480px) {
+    .legend {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .legend-item {
+        font-size: 0.8em;
+    }
+}
+

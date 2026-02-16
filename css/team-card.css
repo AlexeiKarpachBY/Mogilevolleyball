@@ -1,0 +1,334 @@
+/* ============= КАРТОЧКА КОМАНДЫ ============= */
+
+.team-card-container {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px 0;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 60px rgba(0, 212, 255, 0.1);
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.team-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(0, 212, 255, 0.2);
+    padding-bottom: 20px;
+}
+
+.team-card-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.team-icon {
+    font-size: 2.5em;
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+}
+
+.team-card-title h2 {
+    font-size: 2em;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00d4ff, #0099cc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+.close-card-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-card-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: rgba(255, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+.team-stats-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.stat-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.stat-box:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.5);
+    transform: translateY(-5px);
+}
+
+.stat-box.stat-large {
+    grid-column: span 1;
+}
+
+.stat-value {
+    font-size: 2.2em;
+    font-weight: 800;
+    color: #00d4ff;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.team-card-section {
+    margin-bottom: 40px;
+}
+
+.team-card-section h3 {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    color: #00d4ff;
+    border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.home-away-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.compare-box {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 25px;
+    border-left: 4px solid;
+}
+
+.compare-box.home {
+    border-left-color: #4ade80;
+}
+
+.compare-box.away {
+    border-left-color: #f472b6;
+}
+
+.compare-label {
+    font-size: 1.1em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.compare-box.home .compare-label {
+    color: #4ade80;
+}
+
+.compare-box.away .compare-label {
+    color: #f472b6;
+}
+
+.compare-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.compare-number {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.compare-text {
+    font-size: 0.85em;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.matches-history {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.match-history-item {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 0.8fr;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid rgba(0, 212, 255, 0.3);
+    border-radius: 10px;
+    padding: 15px 20px;
+    transition: all 0.3s;
+}
+
+.match-history-item:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-left-color: rgba(0, 212, 255, 0.8);
+}
+
+.match-history-opponent {
+    font-weight: 600;
+    font-size: 1.05em;
+}
+
+.match-history-result {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.history-score {
+    font-size: 1.3em;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.history-location {
+    font-size: 0.8em;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.match-history-points {
+    text-align: right;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    color: #fbbf24;
+}
+
+.upcoming-matches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.upcoming-match-item {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(69, 183, 209, 0.1));
+    border: 2px dashed rgba(0, 212, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+.upcoming-match-item:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(69, 183, 209, 0.15));
+    border-style: solid;
+    border-color: rgba(0, 212, 255, 0.8);
+}
+
+.upcoming-opponent {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.upcoming-location {
+    display: inline-block;
+    font-size: 0.75em;
+    padding: 4px 8px;
+    background: rgba(0, 212, 255, 0.2);
+    border-radius: 5px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #00d4ff;
+    font-weight: 600;
+}
+
+.upcoming-date {
+    font-size: 0.9em;
+    color: #aaa;
+    margin-bottom: 8px;
+}
+
+.upcoming-time {
+    font-size: 0.85em;
+    color: #888;
+}
+
+@media (max-width: 768px) {
+    .team-card-container {
+        padding: 20px;
+    }
+
+    .stat-box.stat-large {
+        grid-column: span 2;
+    }
+
+    .team-stats-main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-away-compare {
+        grid-template-columns: 1fr;
+    }
+
+    .match-history-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .match-history-result {
+        justify-content: space-between;
+    }
+
+    .match-history-points {
+        text-align: left;
+    }
+
+    .upcoming-matches {
+        grid-template-columns: 1fr;
+    }
+}
+

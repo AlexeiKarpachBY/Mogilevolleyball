@@ -1,0 +1,256 @@
+/* ============= КОМАНДЫ И БЕЙДЖИ ============= */
+
+.match-teams {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    justify-content: center;
+}
+
+.matches-grid.gameweek-view .match-teams {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.matches-grid.team-view .match-teams {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 15px;
+}
+
+.team {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.05em;
+    letter-spacing: 0.3px;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.team:hover {
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.matches-grid.gameweek-view .team.home {
+    background: rgba(74, 222, 128, 0.25);
+    color: #5eff99;
+    border: 1px solid rgba(74, 222, 128, 0.5);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.matches-grid.gameweek-view .team.away {
+    background: rgba(244, 114, 182, 0.25);
+    color: #ff8dc7;
+    border: 1px solid rgba(244, 114, 182, 0.5);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.matches-grid.team-view .team {
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.matches-grid.team-view .team.home {
+    text-align: right;
+    color: #5eff99;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.matches-grid.team-view .team.away {
+    text-align: left;
+    color: #ff8dc7;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.team.highlight {
+    color: #ffd951;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
+    font-weight: 800;
+}
+
+.matches-grid.gameweek-view .team.highlight {
+    background: rgba(251, 191, 36, 0.25);
+    border: 1px solid rgba(251, 191, 36, 0.6);
+}
+
+.vs {
+    font-family: 'Montserrat', sans-serif;
+    color: #999;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.matches-grid.gameweek-view .vs {
+    font-size: 0.9em;
+    padding: 5px 0;
+    color: #bbb;
+}
+
+.matches-grid.team-view .vs {
+    font-size: 1.2em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #aaa;
+}
+
+.match-info {
+    display: flex;
+    gap: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #ddd;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+.matches-grid.gameweek-view .match-info {
+    flex-direction: column;
+}
+
+.matches-grid.team-view .match-info {
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    font-size: 0.9em;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 12px;
+}
+
+.match-info span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.match-info .icon {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.matches-grid.team-view .match-info span {
+    gap: 5px;
+}
+
+.home-badge {
+    background: linear-gradient(135deg, #5eff99, #4ade80);
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85em;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(74, 222, 128, 0.4), 0 0 15px rgba(74, 222, 128, 0.2);
+    animation: badgePulse 3s ease-in-out infinite;
+}
+
+.away-badge {
+    background: linear-gradient(135deg, #ff8dc7, #f472b6);
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85em;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(244, 114, 182, 0.4), 0 0 15px rgba(244, 114, 182, 0.2);
+    animation: badgePulse 3s ease-in-out infinite;
+}
+
+.round-badge {
+    background: linear-gradient(135deg, rgba(0,212,255,0.4), rgba(0,212,255,0.2));
+    color: #00e5ff;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85em;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(0, 212, 255, 0.3), 0 0 15px rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+@keyframes badgePulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+@media (max-width: 768px) {
+    .matches-grid.team-view .match-teams {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .matches-grid.team-view .team.home,
+    .matches-grid.team-view .team.away {
+        text-align: center;
+    }
+
+    .matches-grid.team-view .match-info {
+        flex-direction: column;
+        gap: 10px;
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .team {
+        font-size: 1em;
+    }
+
+    .vs {
+        font-size: 1em;
+    }
+
+    .match-info {
+        gap: 5px;
+        font-size: 0.75em;
+    }
+}
+
+.team-schedule {
+    display: none;
+}
+
+.team-schedule.active {
+    display: block;
+}
+
+.team-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.team-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.2em;
+    font-weight: 800;
+    color: #ffd951;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(251, 191, 36, 0.5);
+}
+
+.team-stats {
+    font-family: 'Roboto', sans-serif;
+    color: #ccc;
+    font-size: 1.05em;
+    font-weight: 500;
+}
+
