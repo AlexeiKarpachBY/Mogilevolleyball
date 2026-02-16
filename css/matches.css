@@ -45,28 +45,15 @@
 }
 
 .gameweek-title::before {
-    content: '🏐';
+    content: '';
     position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2em;
-    animation: ballSpin 3s linear infinite;
-}
-
-.gameweek-title::after {
-    content: '🏐';
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2em;
-    animation: ballSpin 3s linear infinite reverse;
-}
-
-@keyframes ballSpin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
+    left: 50%;
+    bottom: -2px;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    box-shadow: 0 0 10px #00d4ff;
 }
 
 .matches-grid {
@@ -193,4 +180,5 @@
         gap: 10px;
     }
 }
+
 
