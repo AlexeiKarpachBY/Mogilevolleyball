@@ -182,6 +182,10 @@
     .standings-table td:nth-child(2) {
         padding-left: 14px;
         min-width: 150px;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .table-legend {
@@ -197,20 +201,6 @@
 
     .standings-table {
         font-size: 0.75em;
-        display: block;
-        width: 100%;
-    }
-
-    .standings-table thead,
-    .standings-table tbody,
-    .standings-table tr {
-        display: block;
-    }
-
-    .standings-table thead {
-        position: sticky;
-        top: 0;
-        z-index: 10;
     }
 
     .standings-table th,
@@ -222,12 +212,18 @@
     .standings-table td:first-child {
         padding-left: 8px;
         width: 30px;
+        min-width: 30px;
     }
 
     .standings-table th:nth-child(2),
     .standings-table td:nth-child(2) {
         padding-left: 10px;
-        min-width: 120px;
+        padding-right: 8px;
+        min-width: 100px;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         font-size: 0.95em;
     }
 
@@ -239,8 +235,11 @@
     .standings-table td:nth-child(4),
     .standings-table td:nth-child(5),
     .standings-table td:nth-child(6) {
-        width: 60px;
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
         padding: 8px 2px;
+        font-size: 0.85em;
     }
 
     .standings-table tbody tr {
