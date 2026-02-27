@@ -100,6 +100,16 @@
     color: #00d4ff;
 }
 
+/* Hover-эффект для имени команды в таблице */
+.standings-team-name {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.standings-table tbody tr:hover .standings-team-name {
+    color: #00d4ff;
+}
+
 .standings-table tbody tr:nth-child(1),
 .standings-table tbody tr:nth-child(2),
 .standings-table tbody tr:nth-child(3),
@@ -194,6 +204,104 @@
     background: rgba(255, 82, 82, 0.2);
 }
 
+/* ============= ПРОГРЕСС-БАР ТУРНИРА ============= */
+
+.standings-info {
+    text-align: center;
+    margin-bottom: 12px;
+    color: #ccc;
+    font-size: 0.95em;
+    font-family: 'Roboto', sans-serif;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 500px;
+    margin: 0 auto 24px;
+    padding: 0 20px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 7px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 7px;
+    background: linear-gradient(90deg, #f0a500, #ffd700);
+    position: relative;
+    animation: progressGrow 1.2s ease-out forwards;
+    box-shadow: 0 0 8px rgba(240, 165, 0, 0.4);
+    transition: width 0.6s ease;
+}
+
+/* Мерцающий блик на полосе */
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shimmerProgress 2.5s ease-in-out infinite;
+    animation-delay: 1.2s;
+}
+
+/* Зелёная полоса при 100% */
+.progress-fill.progress-full {
+    background: linear-gradient(90deg, #4CAF50, #66BB6A);
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.5);
+}
+
+.progress-percent {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: #ffd700;
+    min-width: 40px;
+    text-align: right;
+}
+
+.progress-full ~ .progress-percent,
+.progress-container:has(.progress-full) .progress-percent {
+    color: #66BB6A;
+}
+
+@keyframes progressGrow {
+    from {
+        width: 0 !important;
+    }
+}
+
+@keyframes shimmerProgress {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+/* Уважаем prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .progress-fill {
+        animation: none;
+    }
+    .progress-fill::after {
+        animation: none;
+    }
+}
+
 /* Специфичные стили таблицы */
 @media (max-width: 768px) {
     .standings-table {
@@ -223,6 +331,11 @@
     .table-legend {
         font-size: 0.8em;
         gap: 15px;
+    }
+
+    .progress-container {
+        max-width: 400px;
+        padding: 0 15px;
     }
 }
 
@@ -289,6 +402,24 @@
         width: 100%;
         max-width: 200px;
         justify-content: flex-start;
+    }
+
+    .progress-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 280px;
+        gap: 6px;
+        padding: 0 10px;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 10px;
+    }
+
+    .progress-percent {
+        font-size: 0.8em;
+        min-width: auto;
     }
 }
 

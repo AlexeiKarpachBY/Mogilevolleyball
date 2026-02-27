@@ -1,0 +1,211 @@
+/* ============= РЕЗУЛЬТАТЫ МАТЧЕЙ ============= */
+
+/* Карточка сыгранного матча */
+.match-card.match-played {
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+.match-card.match-played::before {
+    background: linear-gradient(45deg, rgba(74, 222, 128, 0.2), rgba(0, 212, 255, 0.2), rgba(74, 222, 128, 0.2));
+}
+
+/* Бейдж статуса */
+.match-status-badge {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-align: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.match-status-badge.played {
+    background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(74, 222, 128, 0.1));
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+/* Победитель и проигравший в карточке */
+.team.winner {
+    position: relative;
+}
+
+.matches-grid.gameweek-view .team.home.winner {
+    background: rgba(74, 222, 128, 0.35);
+    border-color: rgba(74, 222, 128, 0.7);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+}
+
+.matches-grid.gameweek-view .team.away.winner {
+    background: rgba(244, 114, 182, 0.35);
+    border-color: rgba(244, 114, 182, 0.7);
+    box-shadow: 0 0 15px rgba(244, 114, 182, 0.2);
+}
+
+.team.winner::after {
+    content: '👑';
+    margin-left: 6px;
+    font-size: 0.9em;
+    animation: crownBounce 2s ease-in-out infinite;
+}
+
+.team.loser {
+    opacity: 0.6;
+}
+
+@keyframes crownBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* ===== Блок результата ===== */
+.match-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 10px;
+    margin: 5px 0;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Счёт по сетам (основной крупный) ===== */
+.result-score {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2em;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.result-sets {
+    min-width: 36px;
+    text-align: center;
+}
+
+.result-sets.result-winner {
+    color: #4ade80;
+    text-shadow: 0 0 20px rgba(74, 222, 128, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.result-sets.result-loser {
+    color: #ef4444;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.4), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.result-divider {
+    color: #888;
+    font-weight: 700;
+}
+
+/* ===== Счёт по партиям ===== */
+.result-parties {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.result-set-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.85em;
+    font-weight: 500;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.set-label {
+    color: #888;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.set-score-winner {
+    color: #4ade80;
+    font-weight: 700;
+}
+
+.set-score-loser {
+    color: #999;
+    font-weight: 400;
+}
+
+.set-divider {
+    color: #666;
+    margin: 0 1px;
+}
+
+/* ===== Адаптивность результатов ===== */
+@media (max-width: 768px) {
+    .result-score {
+        font-size: 1.6em;
+    }
+
+    .result-parties {
+        gap: 8px;
+    }
+
+    .result-set-item {
+        font-size: 0.8em;
+        padding: 3px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .result-score {
+        font-size: 1.4em;
+    }
+
+    .result-parties {
+        gap: 6px;
+    }
+
+    .result-set-item {
+        font-size: 0.75em;
+        padding: 2px 6px;
+    }
+}
+
+/* ===== Анимация появления результата ===== */
+.match-result {
+    opacity: 0;
+    transform: scale(0.9);
+    animation: resultAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+}
+
+@keyframes resultAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    60% {
+        transform: scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    .match-result,
+    .team.winner::after {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}

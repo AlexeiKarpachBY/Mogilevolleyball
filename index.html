@@ -22,6 +22,7 @@
             <button class="view-mode-btn active" data-mode="gameweek">📅 Расписание</button>
             <button class="view-mode-btn" data-mode="team">👥 По командам</button>
             <button class="view-mode-btn" data-mode="table">🏆 Таблица</button>
+            <button class="view-mode-btn" data-mode="playoff">⚔️ Плей-офф</button>
         </div>
 
         <div class="controls">
@@ -50,7 +51,7 @@
 
             <div class="control-group" id="teamCardSelector" style="display: none;">
                 <label>🏐 Карточка команды:</label>
-                <select id="teamCardSelect" onchange="if(this.value) showTeamCard(this.value); this.value='';">
+                <select id="teamCardSelect">
                     <option value="">Выберите команду...</option>
                 </select>
             </div>
@@ -77,6 +78,7 @@
     <script src="js/matchResults.js"></script>
     <script src="js/standings.js"></script>
     <script src="js/teamCard.js"></script>
+    <script src="js/playoff.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
