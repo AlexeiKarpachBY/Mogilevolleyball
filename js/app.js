@@ -22,12 +22,78 @@ function initializeApp() {
         populateGameweekSelect();
         populateAllTeamSelects();
         setupEventListeners();
-        showGameweek(1);
+
+        // Определяем и показываем актуальный тур на текущую дату
+        const currentGameweek = getCurrentGameweek();
+        document.getElementById('gameweekSelect').value = currentGameweek;
+        showGameweek(currentGameweek);
     } catch (error) {
         console.error('Error initializing app:', error);
         // Fallback: показываем первый тур из реальных данных
         showStaticGameweek();
     }
+}
+
+/**
+ * Определяет актуальный тур на текущую дату
+ * Логика:
+ * - Если текущая дата раньше первого матча — возвращаем первый тур
+ * - Если текущая дата после последнего матча — возвращаем последний тур
+ * - Иначе — возвращаем тур с ближайшим будущим матчем или текущий активный тур
+ * @returns {number} Номер тура
+ */
+function getCurrentGameweek() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Сбрасываем время для корректного сравнения дат
+
+    const schedule = scheduleData.schedule;
+    if (!schedule || schedule.length === 0) return 1;
+
+    // Собираем все матчи с информацией о туре
+    const allMatches = [];
+    schedule.forEach(gw => {
+        gw.matches.forEach(match => {
+            const matchDate = parseDate(match.date);
+            allMatches.push({
+                date: matchDate,
+                gameweek: gw.gameweek
+            });
+        });
+    });
+
+    // Сортируем матчи по дате
+    allMatches.sort((a, b) => a.date - b.date);
+
+    // Если текущая дата раньше первого матча — возвращаем первый тур
+    if (today < allMatches[0].date) {
+        return schedule[0].gameweek;
+    }
+
+    // Если текущая дата после последнего матча — возвращаем последний тур
+    if (today > allMatches[allMatches.length - 1].date) {
+        return schedule[schedule.length - 1].gameweek;
+    }
+
+    // Ищем тур с ближайшим будущим матчем
+    for (let i = 0; i < allMatches.length; i++) {
+        if (allMatches[i].date >= today) {
+            return allMatches[i].gameweek;
+        }
+    }
+
+    // Fallback — последний тур
+    return schedule[schedule.length - 1].gameweek;
+}
+
+/**
+ * Парсит дату в формате DD.MM.YYYY
+ * @param {string} dateStr - Дата в формате DD.MM.YYYY
+ * @returns {Date}
+ */
+function parseDate(dateStr) {
+    const parts = dateStr.split('.');
+    // parts[0] - день, parts[1] - месяц (0-indexed в Date), parts[2] - год
+    return new Date(parts[2], parts[1] - 1, parts[0]);
 }
 
 function populateGameweekSelect() {
