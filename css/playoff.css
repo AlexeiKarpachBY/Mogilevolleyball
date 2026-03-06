@@ -1,8 +1,15 @@
-/* ============= ПЛЕЙ-ОФФ СЕТКА ============= */
+/* ============= ПЛЕЙ-ОФФ СЕТКА (BRACKET) ============= */
 
 .playoff-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
+    opacity: 0;
+    animation: playoffAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes playoffAppear {
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .playoff-title {
@@ -42,14 +49,25 @@
     padding: 0 10px;
 }
 
-/* ===== Секции верхняя/нижняя сетка ===== */
+/* ===== Секция сетки (верхняя/нижняя) ===== */
 .playoff-bracket {
-    margin-bottom: 40px;
+    margin-bottom: 45px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: bracketSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.playoff-bracket:nth-child(2) { animation-delay: 0.1s; }
+.playoff-bracket:nth-child(3) { animation-delay: 0.2s; }
+
+@keyframes bracketSlideIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .bracket-header {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.2em;
+    font-size: 1.15em;
     font-weight: 700;
     text-align: center;
     padding: 12px 20px;
@@ -71,44 +89,145 @@
     border: 1px solid rgba(192, 192, 192, 0.3);
 }
 
-/* ===== Раунды ===== */
-.bracket-rounds {
-    display: flex;
-    align-items: stretch;
-    gap: 30px;
-    overflow-x: auto;
+/* ===================================================================
+   ВЕРХНЯЯ СЕТКА — ЗЕРКАЛЬНЫЙ BRACKET (трофей по центру)
+   9 колонок: ПФ1 | линия | Финалист1 | линия | 🏆 | линия | Финалист2 | линия | ПФ2
+   =================================================================== */
+.bracket-grid-mirror {
+    display: grid;
+    grid-template-columns: 1.2fr 32px 0.9fr 32px auto 32px 0.9fr 32px 1.2fr;
+    align-items: start;
+    gap: 0;
+    position: relative;
     padding: 10px 0;
 }
 
+/* ===== НИЖНЯЯ СЕТКА — линейная ===== */
+.bracket-grid {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    grid-template-rows: auto;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+    padding: 10px 0;
+}
+
+/* ===== Колонки раундов ===== */
 .bracket-round {
-    flex: 1;
-    min-width: 240px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
 }
 
 .round-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-weight: 700;
     text-align: center;
     color: #00e5ff;
-    padding: 8px 15px;
+    padding: 6px 12px;
     background: rgba(0, 212, 255, 0.1);
     border-radius: 8px;
     border: 1px solid rgba(0, 212, 255, 0.2);
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    margin-bottom: 4px;
 }
 
-/* ===== Контейнер для матчей раунда ===== */
 .round-matches {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     flex: 1;
     justify-content: center;
+    gap: 16px;
+}
+
+/* ===== Центральная колонка — трофей + финалы ===== */
+.bracket-trophy-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 10px;
+    min-width: 220px;
+}
+
+.center-match-section {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.center-match-section .round-title {
+    margin-bottom: 8px;
+}
+
+.center-match-section .playoff-match {
+    width: 100%;
+}
+
+.third-place-section {
+    margin-top: 16px;
+}
+
+/* ===== Карточка финалиста ===== */
+.finalist-card {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.finalist-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.finalist-card.tbd {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    border-color: rgba(255,255,255,0.08);
+}
+
+.finalist-card.tbd:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.finalist-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6em;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.finalist-team {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.finalist-team-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #ffd951;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.finalist-card.tbd .finalist-team-name {
+    color: #555;
+    font-style: italic;
+    font-weight: 400;
 }
 
 /* ===== Карточка матча плей-офф ===== */
@@ -123,7 +242,7 @@
 
 .playoff-match:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2), 0 0 40px rgba(0, 212, 255, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2), 0 0 30px rgba(0, 212, 255, 0.08);
     border-color: rgba(0, 212, 255, 0.4);
 }
 
@@ -132,7 +251,6 @@
     background: linear-gradient(135deg, rgba(74, 222, 128, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%);
 }
 
-/* Полоса слева для финальных матчей */
 .playoff-match.final-match {
     border-left: 3px solid #ffd951;
 }
@@ -141,18 +259,32 @@
     border-left: 3px solid #cd7f32;
 }
 
-/* ===== Команда внутри матча плей-офф ===== */
+/* ===== Метка матча ===== */
+.playoff-match-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65em;
+    font-weight: 600;
+    text-align: center;
+    padding: 4px 8px;
+    color: #888;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ===== Команда внутри матча ===== */
 .playoff-team {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding: 10px 14px;
     transition: background 0.3s;
     cursor: pointer;
-    gap: 10px;
+    gap: 8px;
 }
 
-.playoff-team:first-child {
+.playoff-team:first-of-type {
     border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
@@ -163,19 +295,19 @@
 .playoff-team-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex: 1;
     min-width: 0;
 }
 
 .playoff-seed {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.75em;
+    font-size: 0.7em;
     font-weight: 700;
     color: #888;
     background: rgba(255,255,255,0.08);
-    min-width: 24px;
-    height: 24px;
+    min-width: 22px;
+    height: 22px;
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -185,7 +317,7 @@
 
 .playoff-team-name {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.95em;
+    font-size: 0.85em;
     font-weight: 600;
     color: #ddd;
     white-space: nowrap;
@@ -195,109 +327,137 @@
 
 .playoff-team-score {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: 800;
-    min-width: 24px;
+    min-width: 22px;
     text-align: center;
     color: #888;
 }
 
-/* Команда-победитель */
-.playoff-team.winner .playoff-team-name {
-    color: #4ade80;
-    font-weight: 700;
-}
+/* Победитель */
+.playoff-team.winner .playoff-team-name { color: #4ade80; font-weight: 700; }
+.playoff-team.winner .playoff-team-score { color: #4ade80; text-shadow: 0 0 10px rgba(74, 222, 128, 0.5); }
+.playoff-team.winner .playoff-seed { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
 
-.playoff-team.winner .playoff-team-score {
-    color: #4ade80;
-    text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
-}
+/* Проигравший */
+.playoff-team.loser .playoff-team-name { color: #777; }
+.playoff-team.loser .playoff-team-score { color: #666; }
+.playoff-team.loser { opacity: 0.65; }
 
-.playoff-team.winner .playoff-seed {
-    background: rgba(74, 222, 128, 0.2);
-    color: #4ade80;
-}
+/* TBD */
+.playoff-team.tbd .playoff-team-name { color: #555; font-style: italic; font-weight: 400; }
+.playoff-team.tbd .playoff-seed { background: rgba(255,255,255,0.04); color: #555; }
 
-/* Команда-проигравшая */
-.playoff-team.loser .playoff-team-name {
-    color: #777;
-}
-
-.playoff-team.loser .playoff-team-score {
-    color: #666;
-}
-
-.playoff-team.loser {
-    opacity: 0.65;
-}
-
-/* ===== Счёт по партиям в карточке плей-офф ===== */
+/* ===== Счёт по партиям ===== */
 .playoff-set-scores {
     display: flex;
     justify-content: center;
-    gap: 6px;
-    padding: 6px 16px 10px;
+    gap: 5px;
+    padding: 5px 12px 8px;
     background: rgba(0,0,0,0.15);
 }
 
 .playoff-set-score {
     font-family: 'Roboto', sans-serif;
-    font-size: 0.75em;
+    font-size: 0.7em;
     font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 6px;
+    padding: 2px 6px;
+    border-radius: 5px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.06);
     color: #aaa;
 }
 
-.playoff-set-score .pss-winner {
-    color: #4ade80;
-    font-weight: 700;
+.playoff-set-score .pss-winner { color: #4ade80; font-weight: 700; }
+.playoff-set-score .pss-loser { color: #888; }
+
+/* ===== Соединители ===== */
+.bracket-connectors {
+    position: relative;
+    min-height: 100%;
 }
 
-.playoff-set-score .pss-loser {
-    color: #888;
+.bracket-connectors svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 
-/* ===== Ещё не определена (TBD) ===== */
-.playoff-team.tbd .playoff-team-name {
-    color: #555;
-    font-style: italic;
-    font-weight: 400;
+/* ===== Трофей ===== */
+.bracket-trophy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4em;
+    opacity: 0.15;
+    filter: grayscale(100%);
+    transition: opacity 0.4s, filter 0.4s;
+    margin-bottom: 4px;
+    margin-top: 5px;
 }
 
-.playoff-team.tbd .playoff-seed {
-    background: rgba(255,255,255,0.04);
-    color: #555;
+.bracket-trophy.has-winner {
+    opacity: 1;
+    filter: grayscale(0%);
+    animation: trophyGlow 2s ease-in-out infinite alternate;
 }
 
-/* ===== Метка матча ===== */
-.playoff-match-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.7em;
-    font-weight: 600;
+@keyframes trophyGlow {
+    0% { filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3)); }
+    100% { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); }
+}
+
+.bracket-trophy.lower-trophy { font-size: 2.5em; }
+
+.bracket-trophy.lower-trophy.has-winner {
+    animation: trophyGlowSilver 2s ease-in-out infinite alternate;
+}
+
+@keyframes trophyGlowSilver {
+    0% { filter: drop-shadow(0 0 5px rgba(192, 192, 192, 0.2)); }
+    100% { filter: drop-shadow(0 0 10px rgba(192, 192, 192, 0.4)); }
+}
+
+.trophy-champion-name {
     text-align: center;
-    padding: 5px 10px;
-    color: #888;
-    background: rgba(255,255,255,0.03);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: #ffd951;
+    margin-bottom: 4px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
 }
 
-/* ===== Результат на раунд (финал и т.п.) ===== */
+.trophy-champion-name.lower {
+    color: #ccc;
+    text-shadow: none;
+}
+
+/* ===== Призы ===== */
+.playoff-prizes {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .playoff-prize {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 10px;
-    margin-top: 15px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 0.9em;
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
 }
 
 .playoff-prize.gold {
@@ -318,18 +478,7 @@
     border: 1px solid rgba(205, 127, 50, 0.3);
 }
 
-/* ===== Соединительные линии (стрелки) ===== */
-.bracket-connector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5em;
-    color: rgba(0, 212, 255, 0.3);
-    flex-shrink: 0;
-    width: 30px;
-}
-
-/* ===== Информация о предстоящих плей-офф ===== */
+/* ===== Информационный блок ===== */
 .playoff-info-box {
     text-align: center;
     padding: 25px 20px;
@@ -347,145 +496,159 @@
     line-height: 1.5;
 }
 
-.playoff-info-box p:last-child {
-    margin-bottom: 0;
-}
+.playoff-info-box p:last-child { margin-bottom: 0; }
+.playoff-info-box strong { color: #00d4ff; }
 
-.playoff-info-box strong {
-    color: #00d4ff;
-}
-
-/* ===== Анимации ===== */
-.playoff-container {
+/* ===== Анимации появления ===== */
+.playoff-match,
+.finalist-card {
     opacity: 0;
-    animation: playoffAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes playoffAppear {
-    0% {
-        opacity: 0;
-        transform: perspective(1000px) rotateX(-5deg);
-    }
-    100% {
-        opacity: 1;
-        transform: perspective(1000px) rotateX(0deg);
-    }
-}
-
-.playoff-bracket {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: bracketSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.playoff-bracket:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.playoff-bracket:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-@keyframes bracketSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.playoff-match {
-    opacity: 0;
-    transform: translateX(-15px);
     animation: matchSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.playoff-match:nth-child(1) { animation-delay: 0.15s; }
-.playoff-match:nth-child(2) { animation-delay: 0.25s; }
+/* Зеркальная сетка — анимация */
+.bracket-col-semi-left .playoff-match { animation-delay: 0.05s; transform: translateX(-15px); }
+.bracket-col-finalist:first-of-type .finalist-card { animation-delay: 0.15s; transform: translateX(-10px); }
+.bracket-trophy-column .playoff-match:first-of-type { animation-delay: 0.25s; transform: translateY(-10px); }
+.bracket-trophy-column .third-place-section .playoff-match { animation-delay: 0.35s; transform: translateY(10px); }
+.bracket-col-semi-right .playoff-match { animation-delay: 0.05s; transform: translateX(15px); }
+
+/* Второй финалист — справа */
+.bracket-grid-mirror > .bracket-col-finalist:nth-of-type(2) .finalist-card {
+    animation-delay: 0.15s;
+    transform: translateX(10px);
+}
+
+/* Нижняя сетка */
+.bracket-grid > .bracket-round:nth-child(1) .playoff-match:nth-child(1) { animation-delay: 0.1s; transform: translateX(-10px); }
+.bracket-grid > .bracket-round:nth-child(1) .playoff-match:nth-child(2) { animation-delay: 0.2s; transform: translateX(-10px); }
+.bracket-grid > .bracket-round:nth-child(3) .playoff-match:nth-child(1) { animation-delay: 0.3s; }
+.bracket-grid > .bracket-round:nth-child(3) .playoff-match:nth-child(2) { animation-delay: 0.4s; }
 
 @keyframes matchSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateX(-15px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    0% { opacity: 0; }
+    100% { opacity: 1; transform: translate(0, 0); }
 }
 
-/* ===== Адаптивность ===== */
-@media (max-width: 768px) {
-    .bracket-rounds {
+/* ===== АДАПТИВНОСТЬ ===== */
+
+@media (max-width: 1100px) {
+    .bracket-grid-mirror {
+        grid-template-columns: 1.2fr 24px 0.8fr 24px auto 24px 0.8fr 24px 1.2fr;
+    }
+
+    .bracket-trophy-column {
+        min-width: 190px;
+        padding: 0 6px;
+    }
+
+    .bracket-trophy { font-size: 3.2em; }
+
+    .playoff-team { padding: 8px 10px; }
+    .playoff-team-name { font-size: 0.78em; }
+    .playoff-match-label { font-size: 0.6em; }
+    .finalist-team-name { font-size: 0.82em; }
+}
+
+@media (max-width: 900px) {
+    .bracket-grid-mirror {
+        grid-template-columns: 1fr 18px 0.8fr 18px auto 18px 0.8fr 18px 1fr;
+    }
+
+    .bracket-grid {
+        grid-template-columns: 1fr 30px 1fr 30px 1fr;
+    }
+
+    .bracket-trophy-column { min-width: 160px; padding: 0 4px; }
+    .bracket-trophy { font-size: 2.6em; }
+
+    .playoff-team { padding: 6px 8px; }
+    .playoff-team-name { font-size: 0.72em; }
+    .playoff-seed { min-width: 18px; height: 18px; font-size: 0.6em; }
+    .playoff-team-score { font-size: 0.85em; }
+    .round-title { font-size: 0.68em; padding: 4px 6px; }
+    .playoff-match-label { font-size: 0.55em; padding: 3px 5px; }
+    .trophy-champion-name { font-size: 0.65em; }
+    .finalist-card { padding: 10px 10px; }
+    .finalist-team-name { font-size: 0.75em; }
+    .finalist-label { font-size: 0.55em; }
+}
+
+/* Мобильный — вертикальная раскладка */
+@media (max-width: 640px) {
+    .bracket-grid-mirror,
+    .bracket-grid {
+        display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 6px;
     }
 
-    .bracket-round {
-        min-width: unset;
+    .bracket-connectors {
+        min-height: auto;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .bracket-connector {
-        transform: rotate(90deg);
-        width: auto;
-        height: 30px;
+    .bracket-connectors svg { display: none; }
+
+    .bracket-connectors::after {
+        content: '▼';
+        color: rgba(0, 212, 255, 0.35);
+        font-size: 1.1em;
     }
 
-    .playoff-team {
-        padding: 10px 12px;
+    .bracket-connectors.conn-right::after {
+        content: '▼';
     }
 
-    .playoff-team-name {
-        font-size: 0.85em;
+    /* Верхняя сетка — мобильный порядок через order */
+    .bracket-col-semi-left { order: 1; }
+    .bracket-grid-mirror > .bracket-connectors:nth-child(2) { order: 2; }
+    .bracket-grid-mirror > .bracket-col-finalist:first-of-type { order: 3; }
+    .bracket-grid-mirror > .bracket-connectors:nth-child(4) { order: 4; }
+    .bracket-trophy-column { order: 5; }
+    .bracket-grid-mirror > .bracket-connectors:nth-child(6) { order: 6; }
+    .bracket-grid-mirror > .bracket-col-finalist:nth-of-type(2) { order: 7; }
+    .bracket-grid-mirror > .bracket-connectors:nth-child(8) { order: 8; }
+    .bracket-col-semi-right { order: 9; }
+
+    .bracket-trophy-column {
+        min-width: auto;
+        padding: 15px 10px;
     }
 
-    .bracket-header {
-        font-size: 1.05em;
-    }
+    .bracket-trophy { font-size: 2.5em; }
+
+    .round-title { font-size: 0.75em; }
+    .round-matches { gap: 10px; }
+    .playoff-team { padding: 8px 10px; }
+    .playoff-team-name { font-size: 0.8em; }
+    .playoff-seed { min-width: 20px; height: 20px; font-size: 0.65em; }
+    .playoff-team-score { font-size: 0.9em; }
+    .playoff-set-scores { gap: 4px; padding: 4px 8px 6px; }
+    .playoff-set-score { font-size: 0.65em; padding: 2px 4px; }
+
+    .playoff-prize { font-size: 0.8em; padding: 8px 14px; min-width: 150px; }
+
+    .finalist-card { padding: 12px 14px; }
+    .center-match-section .playoff-match { max-width: 100%; }
 }
 
-@media (max-width: 480px) {
-    .playoff-title {
-        font-size: 1.2em;
-    }
-
-    .playoff-team {
-        padding: 8px 10px;
-    }
-
-    .playoff-team-name {
-        font-size: 0.8em;
-    }
-
-    .playoff-seed {
-        min-width: 20px;
-        height: 20px;
-        font-size: 0.7em;
-    }
-
-    .playoff-team-score {
-        font-size: 0.95em;
-    }
-
-    .playoff-set-scores {
-        gap: 4px;
-        padding: 4px 10px 8px;
-    }
-
-    .playoff-set-score {
-        font-size: 0.7em;
-        padding: 2px 5px;
-    }
+@media (max-width: 400px) {
+    .playoff-title { font-size: 1.2em; }
+    .bracket-header { font-size: 0.95em; padding: 10px 14px; }
+    .playoff-team-name { font-size: 0.72em; }
 }
 
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
     .playoff-container,
     .playoff-bracket,
-    .playoff-match {
+    .playoff-match,
+    .finalist-card,
+    .bracket-trophy.has-winner {
         animation: none;
         opacity: 1;
         transform: none;
