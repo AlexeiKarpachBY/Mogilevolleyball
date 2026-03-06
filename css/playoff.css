@@ -185,18 +185,36 @@
 
 /* Золотой матч — больше и заметнее */
 .center-match-section:first-of-type {
-    flex: 1.8;
+    flex: 2.2;
 }
 
 .center-match-section:first-of-type .playoff-match {
-    padding: 2px;
-    min-height: 100px;
+    padding: 4px;
+    min-height: 120px;
+    transform: scale(1.08);
+}
+
+.center-match-section:first-of-type .playoff-team {
+    padding: 14px 16px;
+}
+
+.center-match-section:first-of-type .playoff-team-name {
+    font-size: 0.95em;
+}
+
+.center-match-section:first-of-type .playoff-team-score {
+    font-size: 1.15em;
+}
+
+.center-match-section:first-of-type .round-title {
+    font-size: 0.9em;
 }
 
 /* Бронзовый матч — меньше */
 .third-place-section {
-    margin-top: 16px;
+    margin-top: 24px;
     flex: 1;
+    transform: scale(0.92);
 }
 
 /* ===== Карточка финалиста ===== */
