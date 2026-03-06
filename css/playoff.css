@@ -153,6 +153,23 @@
     min-width: 220px;
 }
 
+/* Центральная колонка для нижней сетки (без трофея) */
+.bracket-trophy-column.lower-center {
+    gap: 30px;
+    padding: 0;
+    min-width: 200px;
+}
+
+.bracket-trophy-column.lower-center .center-match-section {
+    padding: 0;
+}
+
+.bracket-trophy-column.lower-center .center-match-section .round-title {
+    font-size: 0.85em;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.75);
+}
+
 .center-match-section {
     width: 100%;
     margin-top: 18px;
@@ -166,8 +183,20 @@
     width: 100%;
 }
 
+/* Золотой матч — больше и заметнее */
+.center-match-section:first-of-type {
+    flex: 1.8;
+}
+
+.center-match-section:first-of-type .playoff-match {
+    padding: 2px;
+    min-height: 100px;
+}
+
+/* Бронзовый матч — меньше */
 .third-place-section {
     margin-top: 16px;
+    flex: 1;
 }
 
 /* ===== Карточка финалиста ===== */
@@ -252,11 +281,13 @@
 }
 
 .playoff-match.final-match {
-    border-left: 3px solid #ffd951;
+    border: 4px solid #ffd951;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
 }
 
 .playoff-match.third-place-match {
-    border-left: 3px solid #cd7f32;
+    border: 3px solid #cd7f32;
+    box-shadow: 0 0 18px rgba(205, 127, 50, 0.2);
 }
 
 /* ===== Метка матча ===== */
