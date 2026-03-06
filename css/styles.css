@@ -4,19 +4,19 @@
    ============================================ */
 
 /* Базовые стили */
-@import url('base.css');
+@import url('base.css?v=2');
 
 /* Компоненты */
-@import url('header.css');
-@import url('view-modes.css');
-@import url('controls.css');
-@import url('matches.css');
-@import url('match-result.css');
-@import url('teams.css');
-@import url('standings.css');
-@import url('playoff.css');
-@import url('team-card.css');
-@import url('transitions.css');
+@import url('header.css?v=2');
+@import url('view-modes.css?v=2');
+@import url('controls.css?v=2');
+@import url('matches.css?v=2');
+@import url('match-result.css?v=2');
+@import url('teams.css?v=2');
+@import url('standings.css?v=2');
+@import url('playoff.css?v=2');
+@import url('team-card.css?v=2');
+@import url('transitions.css?v=2');
 
 /* ============================================
    Все стили разделены на модули:
